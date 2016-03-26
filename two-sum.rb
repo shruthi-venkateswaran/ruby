@@ -23,3 +23,6 @@ if __FILE__ == $PROGRAM_NAME
   two_sum(arr, target)
 end
 
+# If we cannot use additional space
+# sort array O(nlogn)
+# for each index, binary search (target-x) O(nlogn)
