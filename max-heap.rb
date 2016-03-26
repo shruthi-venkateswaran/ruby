@@ -14,24 +14,26 @@ class Heap
     l = left_child_index(index)
     r = right_child_index(index)
 
-    if l <= @array_rep.length && @array_rep[l] > @array_rep[index]
+    if l < @array_rep.length && @array_rep[l] > @array_rep[index]
       largest = l
     else
       largest = index
     end
 
-    if r <= @array_rep.length && @array_rep[r] > @array_rep[largest]
+    if r < @array_rep.length && @array_rep[r] > @array_rep[largest]
       largest = r
     end
 
-    @array_rep[index], @array_rep[largest] = @array_rep[largest], @array_rep[index] if largest != index
-    max_heapify(largest)
+    if largest != index
+      @array_rep[index], @array_rep[largest] = @array_rep[largest], @array_rep[index]
+      max_heapify(largest)
+    end
   end
 
   def build_max_heap
-    p @array_rep
-    i = @array_rep.length/2 - 1
-    while i > 0
+    # i = ((@array_rep.length).to_f/2.to_f).floor
+    i = @array_rep.length/2
+    while i >= 0
       max_heapify(i)
       i -=1
     end
@@ -40,7 +42,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   heap = Heap.new()
-  heap.array_rep = [2,4,5,8,7]
+  heap.array_rep = [2,4,5,8,7,43,6,78,2,0,9]
   heap.build_max_heap
   p heap.array_rep
 end
