@@ -2,6 +2,9 @@
 #
 # For example, given the array [−2,1,−3,4,−1,2,1,−5,4], the contiguous subarray [4,−1,2,1] has the largest sum = 6.
 
+# below solution not just return max, but also makes it easy to find the subarray
+# O(n)
+
 def max_subarray(arr)
   p 'nothing to check' if arr.nil? || arr.empty?
   solution = [] #for each element, does that element exist in subarray with max value sum
