@@ -38,3 +38,4 @@ def breadth_first_search(adj_matrix, source_index, end_index) #FIFO
   end
 end
 # Another approach : http://haozeng.github.io/blog/2014/01/05/trees-in-ruby/
+# https://courses.cs.washington.edu/courses/cse326/03su/homework/hw3/dfs.html
