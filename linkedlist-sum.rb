@@ -55,8 +55,8 @@ def add_two_numbers(l1, l2)
     sum = l1_value + l2_value + carry
     carry = sum/10
     final_list.add(sum%10)
-    ptr1 = ptr1.next if !ptr1.nil?
-    ptr2 = ptr2.next if !ptr2.nil?
+    ptr1 = ptr1.next unless ptr1.nil?
+    ptr2 = ptr2.next unless ptr2.nil?
   end
   final_list.reverse
 end

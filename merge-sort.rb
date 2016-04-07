@@ -31,7 +31,7 @@ def merge_sort(arr)
   return arr if arr.length <= 1
   mid = arr.length/2
   left = arr[0,mid]       # arr[0,0] => [], hence return arr if length is 1 too
-  right = arr[mid,arr.length-1] # need to start with mid, as it is not inclusive in left
+  right = arr[mid,arr.length] # need to start with mid, as it is not inclusive in left
   merge(merge_sort(left), merge_sort(right))
 end
 

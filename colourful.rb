@@ -1,4 +1,4 @@
-
+#http://algorithms.tutorialhorizon.com/colorful-numbers/
 # check if a number is colorful
 
 def reverse_num(num)
@@ -40,4 +40,3 @@ if __FILE__ == $PROGRAM_NAME
     puts 'Number is not colorful'
   end
 end
-

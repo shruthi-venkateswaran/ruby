@@ -8,7 +8,7 @@ end
 def max_treasure(treasure_values)
   return 0 if treasure_values.nil? || treasure_values.empty?
   if treasure_values.length == 2
-    return max = treasure_values[0] > treasure_values[1] ? treasure_values[0] : treasure_values[1]
+    return max_between(treasure_values[0],treasure_values[1])
   end
   max = []
   n = treasure_values.length
@@ -24,4 +24,3 @@ if __FILE__ == $PROGRAM_NAME
   a = [1,0,3,3,5]
   p max_treasure(a)
 end
-

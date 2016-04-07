@@ -51,7 +51,7 @@ class Heap
       i -= 1
     end
 
-    @heap_size = @array_rep.length # reset heap siez to actual array length
+    @heap_size = @array_rep.length # reset heap size to actual array length
   end
 end
 

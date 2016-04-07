@@ -4,7 +4,8 @@
 # work out with paper/pen to understand better :). Good practice to revise the logic
 
 class Node
-  attr_accessor :data, :left_size, :left, :right
+  attr_reader :data
+  attr_accessor :left_size, :left, :right
   def initialize(data)
     @data = data
     @left_size = 0

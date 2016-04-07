@@ -16,7 +16,7 @@ def max_subarray(arr)
 
   while i < arr.length
     if arr[i] > arr[i] + sum[i-1]
-      # current element is greater than max sum uptil now
+      # current element is greater than max sum uptil now + max (previous sum is reducing max)
       # mark current element as max sum uptil now in sum[i]
       # make current element as max and it is the only one in the new subset
       # mark all previous elements as not in the subarray
