@@ -14,8 +14,6 @@ class Trie
   attr_accessor :head
   def initialize
     @head = TrieNode.new
-    @head.prefix_count = 0
-    @head.is_end = false
   end
 
   def insert_word(word)

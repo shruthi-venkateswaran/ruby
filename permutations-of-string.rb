@@ -5,18 +5,11 @@ def print_char_permutations(char_array)
 end
 
 def string_permutations(str)
-  puts "string is = #{str}"
   return if str.nil? || str.empty?
   chars = str.chomp.chars
   print_char_permutations(chars)
   return if str.length == 1
-  # rotated_array = chars
-  # p "chars = #{chars}"
   str.length.times do
-    # rotated_array = rotated_array.rotate
-    # p "rotated_array = #{rotated_array}"
-    # r = rotated_array
-    # r.pop
     chars.rotate
     chars.pop
     string_permutations(chars.join)
