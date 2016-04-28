@@ -44,6 +44,7 @@ class Trie
     prefix_chars = prefix.chars
     current = @head
     for i in 0..prefix.length-1 do
+      letter = prefix_chars[i].ord - 'a'.ord
       return 0 if current.children[letter].nil?
       current = current.children[letter]
     end

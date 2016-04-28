@@ -8,8 +8,7 @@ class Node
 end
 
 def find_mid(head)
-  return if head.nil?
-  return head if head.next.nil?
+  return head if head.nil? || head.next.nil?
   slow = head
   fast = head
   while (fast!=nil || fast.next!=nil)

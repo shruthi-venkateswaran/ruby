@@ -3,7 +3,7 @@
     # 2      5
   # /   \   / \
   # 3   4  6   7
-  # represented as [1,2.5,3,4,6,7] (left child = 2i+1 and right child = 2i+2)
+  # represented as [1,2,5,3,4,6,7] (left child = 2i+1 and right child = 2i+2)
 # Print all paths from root to leaf node in a binary tree
 
 def left(index)
@@ -50,7 +50,7 @@ def print_all_paths(tree_array)
           print 'nil'
           puts
       end
-      stack.pop #remove leaf node index
+      stack.pop #remove node index
     end
   end
 end

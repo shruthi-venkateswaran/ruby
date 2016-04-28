@@ -23,7 +23,8 @@ end
 class TreeNode
   attr_accessor :value, :left, :right
   def initialize(val)
-    @value = valleft = right = nil
+    @value = val
+    @left = @right = nil
   end
 end
 
@@ -45,7 +46,7 @@ class Tree
       stack.push(n.right) if n.right
       stack.push(n.left) if n.left
     end
-    result
+    result #treat result as a queue, so actual order is same as result
   end
 
   def inorder #left,root,right
@@ -64,7 +65,7 @@ class Tree
         # pop stack, process the node
         # then let p point to the right
         t = stack.pop
-        result.push(t.val)
+        result.push(t.value)
         p = t.right
       end
     end
@@ -76,6 +77,14 @@ class Tree
     return result if @root.nil?
     stack = Stack.new
     stack.push(@root)
+    while(!stack.empty?)
+      current = stack.peek
+      stack.pop
+      result.push(current.value)
+      stack.push(current.left) if current.left
+      stack.push(current.right) if current.right
+    end
+    result.reverse #treat result as a stack, so actual order is reverse of result
     #TODO
     # http://algorithmsandme.in/2015/03/post-order-traversal-of-binary-search-tree-without-recursion/
   end
