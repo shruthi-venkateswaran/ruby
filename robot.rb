@@ -18,10 +18,11 @@ def find_number_of_paths(obs)
   #DP[0][j] = 1 until you find an obstacle
   #DP[i][0] = 1 until you find an obstacle
   #DP[i][j] =
-  
+  # obs = multidimensional array, eg [[1,0,1], [0,1,0],[1,1,0]] => 3x3, n = 3
+  n = obs.length
   return 0 if obs.nil? || obs.emtpy?
 
-  dp =[][]
+  dp = Array.new(n) { Array.new(n) }
   i = 0
   j = 0
   while (i<n)
