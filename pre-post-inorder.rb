@@ -72,6 +72,32 @@ class Tree
     result
   end
 
+  # http://www.programcreek.com/2014/07/leetcode-kth-smallest-element-in-a-bst-java/
+  def kthsmallest(k) #left,root,right
+    result = 0
+    stack = Stack.new
+    p = @root
+    while(!stack.empty? || !p.nil?)
+      if(!p.nil?)
+        # if it is not null, push to stack
+        # and go down the tree to left
+        stack.push(p)
+        p = p.left
+      else
+        # if no left child
+        # pop stack, process the node
+        # then let p point to the right
+        t = stack.pop
+        k -= 1
+        if k == 0
+          result = t.value
+        end
+        p = t.right
+      end
+    end
+    result
+  end
+
   def postorder #left,right,root
     result = []
     return result if @root.nil?

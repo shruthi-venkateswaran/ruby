@@ -58,3 +58,6 @@ def find_number_of_paths(obs)
 
   return dp[n-1][n-1]
 end
+
+# simple, without obstacles
+# http://www.programcreek.com/2014/05/leetcode-unique-paths-java/
