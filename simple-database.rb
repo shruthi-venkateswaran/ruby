@@ -1,6 +1,6 @@
 # Class to implement Simple Database
 class SimpleDatabase
-  attr_accessor :key_value_map, :num_equal_to_map, :transaction_key_value_map_array, :transaction_num_equal_to_map, :current_transaction_count
+  attr_accessor :key_value_map, :num_equal_to_map, :transaction_key_value_map_array, :transaction_num_equal_to, :current_transaction_count
 
   def initialize
     @current_transaction_count = 0
@@ -38,6 +38,7 @@ class SimpleDatabase
 
   def do_get(key)
     value = nil
+    unset = false
     if @current_transaction_count > 0
       current_transaction_map = @transaction_key_value_map_array.length - 1
       while(current_transaction_map >= 0)
@@ -45,9 +46,14 @@ class SimpleDatabase
           value = @transaction_key_value_map_array[current_transaction_map][key].last
           break
         end
+
+        if @transaction_key_value_map_array[current_transaction_map]["#{key}_unset"]
+          unset = true
+          break
+        end
         current_transaction_map -= 1
       end
-      value = @key_value_map[key] if value.nil?
+      value = @key_value_map[key] if value.nil? && !unset
     else
       value = @key_value_map[key]
     end
@@ -67,6 +73,7 @@ class SimpleDatabase
       else
         current_transaction_map[key] = [value]
       end
+      current_transaction_map.delete("#{key}_unset")
     else
       set(key,value)
     end
@@ -76,6 +83,7 @@ class SimpleDatabase
     if @current_transaction_count > 0
       current_transaction_map = @transaction_key_value_map_array.last
       current_transaction_map.delete(key) if current_transaction_map[key]
+      current_transaction_map["#{key}_unset"] = true
     else
       unset(key)
     end
