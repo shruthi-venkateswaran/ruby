@@ -1,14 +1,23 @@
 # Class to implement Simple Database
+# This approach uses two main hashes:
+# - one is a simple key-value store for all permanent transactions => @key_value_map
+# - one is an inverse index hash of total variable count for a given value => @num_equal_to_map
+# It also uses a mantains a list of ongoing transactions (much less than variable count) => @transaction_key_value_map_array
+#  (where each ongoing transaction is a key-value map)
+
 class SimpleDatabase
-  attr_accessor :key_value_map, :num_equal_to_map, :transaction_key_value_map_array, :transaction_num_equal_to, :current_transaction_count, :transaction_num_equal_to_count
+  attr_accessor :key_value_map,
+                :num_equal_to_map,
+                :transaction_key_value_map_array,
+                :current_transaction_count, # number of ongoing transaction blocks
+                :transaction_num_equal_to_map # for NUMEQUALTO to track values including the given transaction
 
   def initialize
-    @current_transaction_count = 0
     @key_value_map = {}
     @num_equal_to_map = {}
     @transaction_key_value_map_array = []
+    @current_transaction_count = 0
     @transaction_num_equal_to_map = {}
-    @transaction_num_equal_to_count = {}
   end
 
   def parse_command(current_command)
@@ -34,20 +43,20 @@ class SimpleDatabase
 
   def do_begin
     @current_transaction_count += 1
-    @transaction_key_value_map_array.push({})
+    @transaction_key_value_map_array.push({}) # add to the list of ongoing transactions
   end
 
   def do_get(key)
     value = nil
     unset = false
-    if @current_transaction_count > 0
+    if @current_transaction_count > 0 # ongoing transaction, get the most current set value
       current_transaction_map = @transaction_key_value_map_array.length - 1
-      while(current_transaction_map >= 0)
+      while current_transaction_map >= 0 # find the last set value in a given transaction
         if @transaction_key_value_map_array[current_transaction_map][key]
           value = @transaction_key_value_map_array[current_transaction_map][key].last
           break
         end
-
+        # if a variable was unset, no need to check previous transactions for the value
         if @transaction_key_value_map_array[current_transaction_map]["#{key}_unset"]
           unset = true
           break
@@ -55,7 +64,7 @@ class SimpleDatabase
         current_transaction_map -= 1
       end
       value = @key_value_map[key] if value.nil? && !unset
-    else
+    else # no ongoing transaction
       value = @key_value_map[key]
     end
 
@@ -67,7 +76,7 @@ class SimpleDatabase
   end
 
   def do_set(key, value)
-    if @current_transaction_count > 0
+    if @current_transaction_count > 0 # ongoing transaction, set in the current_transaction key-value map
       current_transaction_map = @transaction_key_value_map_array.last
       if !current_transaction_map[key].nil?
         current_transaction_map[key].push(value)
@@ -75,17 +84,17 @@ class SimpleDatabase
         current_transaction_map[key] = [value]
       end
       current_transaction_map.delete("#{key}_unset")
-    else
-      set(key,value)
+    else # no ongoing transaction
+      set(key, value)
     end
   end
 
   def do_unset(key)
-    if @current_transaction_count > 0
+    if @current_transaction_count > 0 # ongoing transaction, track unsetting of this variable
       current_transaction_map = @transaction_key_value_map_array.last
       current_transaction_map.delete(key) if current_transaction_map[key]
       current_transaction_map["#{key}_unset"] = true
-    else
+    else # no ongoing transaction, unset from original key-value map
       unset(key)
     end
   end
@@ -93,60 +102,60 @@ class SimpleDatabase
   def do_numequalto(number)
     total = 0
 
-    if @current_transaction_count > 0
+    if @current_transaction_count > 0 # ongoing transaction
       current_transaction_map = @transaction_key_value_map_array.length - 1
-      while(current_transaction_map >= 0)
+      while current_transaction_map >= 0
         @transaction_key_value_map_array[current_transaction_map].each do |key, value|
-          if key.include?('unset')
+          if key.include?('unset') # if variable was unset, don't count any occurence of it with this given value
             unset_key = key.match(/(.*)_unset/)[1]
-            @transaction_num_equal_to_count[unset_key] = false
+            @transaction_num_equal_to_map[unset_key] = false
           end
-          if value == number
-            if @transaction_num_equal_to_count[key].nil?
-              total += 1
-              @transaction_num_equal_to_count[key] = true
-            end
+
+          if value == number && @transaction_num_equal_to_map[key].nil?
+            total += 1
+            @transaction_num_equal_to_map[key] = true
           end
         end
         current_transaction_map -= 1
       end
 
+      # if variable was not unset but exists in original map, count it
       @key_value_map.each do |key, value|
         if value == number
-          if @transaction_num_equal_to_count[key].nil?
-            total += 1
-          end
+          total += 1 if @transaction_num_equal_to_map[key].nil?
         end
       end
-    else
-      if !@num_equal_to_map[number].nil?
-        total += @num_equal_to_map[number]
-      end
+    else # no ongoing transaction
+      total += @num_equal_to_map[number] unless @num_equal_to_map[number].nil?
     end
 
     puts "> #{total}"
   end
 
   def do_commit
-    if @current_transaction_count > 0
+    if @current_transaction_count > 0 # ongoing transaction, commit all values to original map
       @transaction_key_value_map_array.each do |hash|
         hash.each do |key, value_array|
-          @key_value_map[key] = value_array.last
+          if key.include?('unset')
+            @key_value_map.delete(key)
+          else
+            @key_value_map[key] = value_array.last
+          end
         end
       end
       @current_transaction_count = 0
       @transaction_key_value_map_array = []
-      @transaction_num_equal_to_count = {}
+      @transaction_num_equal_to_map = {}
     else
       puts '> NO TRANSACTION'
     end
   end
 
   def do_rollback
-    if @current_transaction_count > 0
+    if @current_transaction_count > 0 # remove most recent transaction from the list
       @transaction_key_value_map_array.pop
       @current_transaction_count -= 1
-      @transaction_num_equal_to_count = {}
+      @transaction_num_equal_to_map = {}
     else
       puts '> NO TRANSACTION'
     end
