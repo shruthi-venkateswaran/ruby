@@ -1,6 +1,6 @@
 # Class to implement Simple Database
 class SimpleDatabase
-  attr_accessor :key_value_map, :num_equal_to_map, :transaction_key_value_map_array, :transaction_num_equal_to, :current_transaction_count
+  attr_accessor :key_value_map, :num_equal_to_map, :transaction_key_value_map_array, :transaction_num_equal_to, :current_transaction_count, :transaction_num_equal_to_count
 
   def initialize
     @current_transaction_count = 0
@@ -8,6 +8,7 @@ class SimpleDatabase
     @num_equal_to_map = {}
     @transaction_key_value_map_array = []
     @transaction_num_equal_to_map = {}
+    @transaction_num_equal_to_count = {}
   end
 
   def parse_command(current_command)
@@ -90,11 +91,40 @@ class SimpleDatabase
   end
 
   def do_numequalto(number)
-    if @num_equal_to_map[number].nil?
-      puts '> 0'
+    total = 0
+
+    if @current_transaction_count > 0
+      current_transaction_map = @transaction_key_value_map_array.length - 1
+      while(current_transaction_map >= 0)
+        @transaction_key_value_map_array[current_transaction_map].each do |key, value|
+          if key.include?('unset')
+            unset_key = key.match(/(.*)_unset/)[1]
+            @transaction_num_equal_to_count[unset_key] = false
+          end
+          if value == number
+            if @transaction_num_equal_to_count[key].nil?
+              total += 1
+              @transaction_num_equal_to_count[key] = true
+            end
+          end
+        end
+        current_transaction_map -= 1
+      end
+
+      @key_value_map.each do |key, value|
+        if value == number
+          if @transaction_num_equal_to_count[key].nil?
+            total += 1
+          end
+        end
+      end
     else
-      puts "> #{@num_equal_to_map[number]}"
+      if !@num_equal_to_map[number].nil?
+        total += @num_equal_to_map[number]
+      end
     end
+
+    puts "> #{total}"
   end
 
   def do_commit
@@ -106,6 +136,7 @@ class SimpleDatabase
       end
       @current_transaction_count = 0
       @transaction_key_value_map_array = []
+      @transaction_num_equal_to_count = {}
     else
       puts '> NO TRANSACTION'
     end
@@ -115,6 +146,7 @@ class SimpleDatabase
     if @current_transaction_count > 0
       @transaction_key_value_map_array.pop
       @current_transaction_count -= 1
+      @transaction_num_equal_to_count = {}
     else
       puts '> NO TRANSACTION'
     end
