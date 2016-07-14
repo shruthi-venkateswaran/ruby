@@ -109,9 +109,7 @@ class SimpleDatabase
           if key.include?('unset') # if variable was unset, don't count any occurence of it with this given value
             unset_key = key.match(/(.*)_unset/)[1]
             @transaction_num_equal_to_map[unset_key] = false
-          end
-
-          if value == number && @transaction_num_equal_to_map[key].nil?
+          elsif value.last == number && @transaction_num_equal_to_map[key].nil?
             total += 1
             @transaction_num_equal_to_map[key] = true
           end
