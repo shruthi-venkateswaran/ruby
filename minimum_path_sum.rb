@@ -11,12 +11,12 @@ def minimum_path_sum(grid)
   dp[0][0] = grid[0][0]
 
   #initialize top row
-  (0..n-1).each do |i|
+  (1..n-1).each do |i|
     dp[0][i] = dp[0][i-1] + grid[0][i]
   end
 
   #initialize left column
-  (0..m-1).each do |i|
+  (1..m-1).each do |j|
     dp[j][0] = dp[j-1][0] + grid[j][0]
   end
 

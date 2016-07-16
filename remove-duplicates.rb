@@ -5,7 +5,7 @@ def remove_duplicates(str)
   hit = []
   uniq = []
   d.each do |char|
-   next if  hit[char.ord]
+   next if hit[char.ord]
    uniq.push(char)
    hit[char.ord] = 1
   end

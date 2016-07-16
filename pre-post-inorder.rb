@@ -91,6 +91,7 @@ class Tree
         k -= 1
         if k == 0
           result = t.value
+          break
         end
         p = t.right
       end

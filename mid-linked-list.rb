@@ -11,10 +11,9 @@ def find_mid(head)
   return head if head.nil? || head.next.nil?
   slow = head
   fast = head
-  while (fast!=nil || fast.next!=nil)
+  while (!fast.nil? || !fast.next.nil?)
     slow = slow.next
     fast = fast.next.next
   end
   slow #points to mid
 end
-

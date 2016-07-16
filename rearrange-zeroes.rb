@@ -1,4 +1,4 @@
-# Given an array  with random 0s and non-zero numbers, shift all )s to the beginning and non-zero numbers to the rear
+# Given an array  with random 0s and non-zero numbers, shift all zeroes to the beginning and non-zero numbers to the rear
 # Ex: 1,9,8,4,0,0,2,7,0,6,0
 # Ouput: 0,0,0,0,1,9,8,4,2,7,6
 #

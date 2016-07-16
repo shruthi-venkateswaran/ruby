@@ -50,7 +50,7 @@ def print_all_paths(tree_array)
           print 'nil'
           puts
       end
-      stack.pop #remove node index
+      stack.pop #remove leaf node index
     end
   end
 end
