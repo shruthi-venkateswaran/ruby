@@ -1,11 +1,25 @@
+def reverse_word(word)
+  n = word.length
+  start_index = 0
+  end_index = n-1
+  while start_index < end_index
+    tmp = word[start_index]
+    word[start_index] = word[end_index]
+    word[end_index] = tmp
+    start_index += 1
+    end_index -= 1
+  end
+  word
+end
 
 def reverse_words_in_sentence(sentence)
   words = sentence.split(' ')
   reverse = []
   words.each do |word|
-    reverse.push(word.reverse)
+    # reverse.push(word.reverse)
+    reversed_word = reverse_word(word)
+    reverse.push(reversed_word)
   end
-
   reverse.join(' ')
 end
 

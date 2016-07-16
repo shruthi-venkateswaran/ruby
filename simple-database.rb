@@ -2,8 +2,8 @@
 # This approach uses two main hashes:
 # - one is a simple key-value store for all permanent transactions => @key_value_map
 # - one is an inverse index hash of total variable count for a given value => @num_equal_to_map
-# It also uses a mantains a list of ongoing transactions (much less than variable count) => @transaction_key_value_map_array
-#  (where each ongoing transaction is a key-value map)
+# It also uses a mantains a list of ongoing transactions(each transaction is much less than variable count) => @transaction_key_value_map_array
+# Each ongoing transaction is a key-value map
 
 class SimpleDatabase
   attr_accessor :key_value_map,

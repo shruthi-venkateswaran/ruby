@@ -6,7 +6,8 @@ class TrieNode
   def initialize
     @prefix_count = 0
     @is_end = false
-    @children = [] #array of upto 26 objects(one per alphabet letter) (each is a pointer to another trie node indicating that letter exists)
+    # @children = [] #array of upto 26 objects(one per alphabet letter) (each is a pointer to another trie node indicating that letter exists)
+    @children = Array.new(26)
   end
 end
 
