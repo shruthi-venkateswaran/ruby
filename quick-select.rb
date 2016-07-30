@@ -18,7 +18,7 @@ end
 def partition(arr,left,right)
   pivot = arr[right]
   current = left
-  for i in current..right-1
+  for i in left..right-1
     if arr[i] <= pivot
       arr[i], arr[current] = arr[current], arr[i]
       current += 1
@@ -27,7 +27,6 @@ def partition(arr,left,right)
   arr[current], arr[right] = arr[right], arr[current]
   return current
 end
-
 
 if __FILE__ == $PROGRAM_NAME
   select([5,6,3,4,11,8], 1)

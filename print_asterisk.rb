@@ -37,15 +37,15 @@ def print_asterisk_vertically(str)
     i = 0
 
     while i < words.length
-     # i is the index, which represent the column in the table
-     j = max_word_length - 1
-     current_word = words[i]
-     current_word_length = current_word.length # 4
-     while j >= current_word_length
-      final_table[j][i] = '*'
-      j -= 1
-     end
-     i += 1
+      # i is the index, which represent the column in the table
+      j = max_word_length - 1
+      current_word = words[i]
+      current_word_length = current_word.length # 4
+      current_word_length.times do
+        final_table[j][i] = '*'
+        j -= 1
+      end
+      i += 1
     end
 
     printUtil(final_table)

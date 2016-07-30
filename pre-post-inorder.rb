@@ -73,7 +73,7 @@ class Tree
   end
 
   # http://www.programcreek.com/2014/07/leetcode-kth-smallest-element-in-a-bst-java/
-  def kthsmallest(k) #left,root,right
+  def kthsmallest(k) #left,root,right => BST
     result = 0
     stack = Stack.new
     p = @root

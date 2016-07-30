@@ -72,7 +72,7 @@ if __FILE__ == $PROGRAM_NAME
   l2.add(4)
 
   final_sum = add_two_numbers(l1,l2)
-  p final_sum
+  # p final_sum
   l3 = final_sum.head
   puts "The sum is:"
   while !l3.nil?

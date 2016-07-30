@@ -5,8 +5,8 @@
 # grid = mXn => [][]
 
 def minimum_path_sum(grid)
-  m = grid.length
-  n = grid[0].length
+  m = grid.length # number of rows
+  n = grid[0].length # number of columns
   dp = Array.new(m) { Array.new(n) }
   dp[0][0] = grid[0][0]
 

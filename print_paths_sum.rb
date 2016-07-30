@@ -14,7 +14,7 @@ class PrintPaths
   def has_path_sum(root_index, sum) # path starting at root, return true if path to leaf node exists adding upto sum
     len = @arr.length
     return false if ( root_index >= len ) || @arr.nil?
-    return true if ( @arr[root_index]==sum && left(root_index)<len && right(root_index)<len )
+    return true if ( @arr[root_index]==sum && left(root_index)>=len && right(root_index)>=len )
     return has_path_sum(left(root_index), sum - @arr[root_index]) || has_path_sum(right(root_index), sum - @arr[root_index] )
   end
 
@@ -73,4 +73,5 @@ if __FILE__ == $PROGRAM_NAME
   pp = PrintPaths.new([1,2,5,3,4,6,7])
   pp.print_paths(11)
   puts pp.has_path_sum(0,12)
+  puts pp.has_path_sum(0,14)
 end
