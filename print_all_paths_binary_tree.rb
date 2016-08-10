@@ -32,7 +32,7 @@ def print_all_paths(tree_array)
 
     left_child = left(current)
     right_child = right(current)
-
+    # dfs like traversal
     if left_child < tree_array.length && visited[left_child] != 1 # left child exists and is not visited
       stack.push(left_child)
       current = left_child

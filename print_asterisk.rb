@@ -32,8 +32,7 @@ def print_asterisk_vertically(str)
 
     words = str.split(' ') # split the sentence into words ['test']
     max_word_length = util(words) # TODO # 4
-    final_table = Array.new(max_word_length) { Array.new(words.length) } []
-                                                                         []
+    final_table = Array.new(max_word_length) { Array.new(words.length) }
     i = 0
 
     while i < words.length

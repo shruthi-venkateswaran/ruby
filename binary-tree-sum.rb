@@ -1,10 +1,10 @@
-4 <-- 4
-/ \
-3   4 <-- 7
-/  \   \
-1   2   5 <-- 8
-
-8   9    5
+# 4 <-- 4
+# / \
+# 3   4 <-- 7
+# /  \   \
+# 1   2   5 <-- 8
+#
+# 8   9    5
 
 
 class TreeNode
@@ -24,7 +24,7 @@ class Tree
      @root = nil
  end
 
- def has_sum(root, int_target)
+ def has_sum(root, int_target) # sum of nodes at each level
      return false root.nil?
      queue = []
      queue.push(root)

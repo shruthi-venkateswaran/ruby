@@ -1,33 +1,38 @@
-def modified_binary_search (arr, target)
-    return false if arr.nil? || arr.empty?
-    find_number( arr, target, 0, arr.length - 1 )
+def modified_binary_search(arr, target)
+  return false if arr.nil? || arr.empty?
+  find_number(arr, target, 0, arr.length - 1)
 end
 
 def find_number(arr, target, start_index, end_index)
-    while end_index >= start_index
-        mid = start_index + (end_index - start_index)/2 # odd length?
-        return true if arr[mid] == target
-        if arr[start_index] <= arr[mid] # left half is still sorted
-          if target >= arr[start_index]
-            end_index = mid-1
-          else
-            start_index = mid+1
-          end
-        else # right half is sorted
-          if target <= arr[start_index]
-            start_index = mid+1
-          else
-            end_index = mid-1
-          end
-        end
+  while end_index >= start_index
+    mid = start_index + (end_index - start_index) / 2 # odd length?
+    return true if arr[mid] == target
+    if arr[start_index] <= arr[mid] # left half is still sorted
+      if target >= arr[start_index] && target < arr[mid]
+        end_index = mid - 1
+      elsif target >= arr[start_index] && target > arr[mid]
+        start_index = mid + 1
+      else
+        start_index = mid + 1
+      end
+    else # right half is sorted
+      if target <= arr[start_index] && target < arr[mid]
+        end_index = mid - 1
+      elsif target <= arr[start_index] && target > arr[mid]
+        start_index = mid + 1
+      else
+        end_index = mid - 1
+      end
     end
-    return false
+  end
+  false
 end
 
 if __FILE__ == $PROGRAM_NAME
   puts modified_binary_search([6, 7, 1, 2, 3, 4, 5], 7)
   puts modified_binary_search([6, 7, 1, 2, 3, 4, 5], 4)
   puts modified_binary_search([6, 7, 1, 2, 3, 4, 5], 9)
+  puts modified_binary_search([2,3,4,5,6,7,0,1], 7)
 end
 
 # string to integer

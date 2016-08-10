@@ -20,13 +20,20 @@ def max_subarray(arr)
       # mark current element as max sum uptil now in sum[i]
       # make current element as max and it is the only one in the new subset
       # mark all previous elements as not in the subarray
-      sum[i] = arr[i]
-      solution[i] = 1
-      (0..i-1).each do |index|
-        solution[index] = 0 # prev elements, not in the subarray
-      end
 
-      max = arr[i]
+      # need to make sure if the current element is neg, even though prev sum is reducing the max sum so far
+      # we should not set it as max if it is less than prev element
+      if arr[i] > arr[i-1]
+        sum[i] = arr[i]
+        solution[i] = 1
+        (0..i-1).each do |index|
+          solution[index] = 0 # prev elements, not in the subarray
+        end
+        max = arr[i]
+      else
+        sum[i] = sum[i-1]
+        solution[i] = 0
+      end
     elsif arr[i] + sum[i-1] < max
       # current element does not increase max
       # current sum is max sum until now plus current element
@@ -59,6 +66,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   max_subarray([-2,1,-3,4,-1,2,1,-5,4])
+  max_subarray([-1, -2, -3, -4, -5, -6])
   max_subarray([])
   max_subarray([1,2,3,4])
   max_subarray([3,2,1])

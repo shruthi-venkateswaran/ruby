@@ -28,7 +28,7 @@ def merge(arr1,arr2)
 end
 
 def merge_sort(arr)
-  return arr if arr.length <= 1
+  return arr if arr.nil? || arr.length <= 1
   mid = arr.length/2
   left = arr[0,mid]       # arr[0,0] => [], hence return arr if length is 1 too
   right = arr[mid,arr.length] # need to start with mid, as it is not inclusive in left
